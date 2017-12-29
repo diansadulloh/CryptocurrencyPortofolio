@@ -2,11 +2,11 @@
   <div class="app">
     <AppHeader/>
     <div class="app-body">
-      <Sidebar :navItems="nav"/>
+      <Sidebar :nav-items="nav"/>
       <main class="main">
         <breadcrumb :list="list"/>
         <div class="container-fluid">
-          <router-view></router-view>
+          <router-view/>
         </div>
       </main>
       <AppAside/>
@@ -16,30 +16,34 @@
 </template>
 
 <script>
-import nav from '../_nav'
-import { Header as AppHeader, Sidebar, Aside as AppAside, Footer as AppFooter, Breadcrumb } from '../components/'
+import nav from '../_nav';
+import {
+  Header as AppHeader,
+  Sidebar,
+  Aside as AppAside,
+  Footer as AppFooter,
+  Breadcrumb
+} from '../components/';
 
 export default {
-  name: 'full',
+  name: 'Full',
   components: {
-    AppHeader,
-    Sidebar,
-    AppAside,
-    AppFooter,
-    Breadcrumb
+    AppHeader: AppHeader,
+    Sidebar: Sidebar,
+    AppAside: AppAside,
+    AppFooter: AppFooter,
+    Breadcrumb: Breadcrumb
   },
-  data () {
-    return {
-      nav: nav.items
-    }
+  data: () => {
+    return { nav: nav.items };
   },
   computed: {
-    name () {
-      return this.$route.name
+    name() {
+      return this.$route.name;
     },
-    list () {
-      return this.$route.matched
+    list() {
+      return this.$route.matched;
     }
   }
-}
+};
 </script>

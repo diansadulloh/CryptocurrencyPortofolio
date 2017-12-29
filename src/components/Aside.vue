@@ -1,11 +1,7 @@
 <template>
-  <aside class="aside-menu">
-
-  </aside>
+  <aside class="aside-menu"/>
 </template>
 
 <script>
-export default {
-  name: 'aside'
-}
+export default { name: 'Aside' };
 </script>

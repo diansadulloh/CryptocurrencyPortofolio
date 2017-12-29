@@ -1,28 +1,28 @@
 <template>
   <li :class="classList">
-    <slot></slot>
+    <slot/>
   </li>
 </template>
 
 <script>
-  export default {
-    name: 'sidebar-nav-item',
-    props: {
-      classes: {
-        type: String,
-        default: ''
-      }
+export default {
+  name: 'SidebarNavItem',
+  props: {
+    classes: {
+      type: String,
+      default: ''
+    }
+  },
+  computed: {
+    classList() {
+      return [
+        'nav-item',
+        ...this.itemClasses
+      ];
     },
-    computed: {
-      classList () {
-        return [
-          'nav-item',
-          ...this.itemClasses
-        ]
-      },
-      itemClasses () {
-        return this.classes ? this.classes.split(' ') : ''
-      }
+    itemClasses() {
+      return this.classes ? this.classes.split(' ') : '';
     }
   }
+};
 </script>

@@ -1,9 +1,7 @@
 <template>
-  <!-- <div class="sidebar-header"></div> -->
+  <div class="sidebar-header"/>
 </template>
 <script>
 
-export default {
-  name: 'sidebar-header'
-}
+export default { name: 'SidebarHeader' };
 </script>

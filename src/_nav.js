@@ -6,4 +6,4 @@ export default {
       icon: 'icon-speedometer'
     }
   ]
-}
+};
