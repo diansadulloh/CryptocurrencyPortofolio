@@ -6,6 +6,7 @@ import Full from '@/containers/Full';
 
 // Views
 import Dashboard from '@/views/Dashboard';
+import Portfolio from '@/views/Portfolio';
 
 Vue.use(Router);
 
@@ -24,8 +25,12 @@ export default new Router({
           path: 'dashboard',
           name: 'Dashboard',
           component: Dashboard
+        },
+        {
+          path: 'portfolio',
+          name: 'Portfolio',
+          component: Portfolio
         }
-
       ]
     }
   ]

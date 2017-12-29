@@ -15,12 +15,12 @@
       @click="sidebarToggle">
       <span class="navbar-toggler-icon"/>
     </button>
-    <button
+    <!-- <button
       class="navbar-toggler aside-menu-toggler d-md-down-none"
       type="button"
       @click="asideToggle">
       <span class="navbar-toggler-icon"/>
-    </button>
+    </button> -->
   </header>
 </template>
 <script>

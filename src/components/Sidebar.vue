@@ -83,7 +83,6 @@
       </ul>
       <slot/>
     </nav>
-    <SidebarFooter/>
     <SidebarMinimizer/>
   </div>
 </template>
