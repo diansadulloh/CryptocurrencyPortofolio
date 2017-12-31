@@ -1,30 +1,31 @@
-# core-ui
+# Cryptocurrency portfolio manager GUI
 
-> Open Source Admin Template
+Built on top of the CoreUI Vue.js theme (Vue_Starter, not Vue_Full_Project;
+https://github.com/mrholek/CoreUI-Vue) using the templates configured
+webpack / Vue.js setup and components.
 
-## Build Setup
+> All components have been edited, but the ones not originally from the template
+are named Portfolio* and CurrencyTable.
 
-``` bash
+## Run
+```
 # install dependencies
 npm install
 
 # serve with hot reload at localhost:8080
 npm run dev
+```
+
+## Build 
+``` bash
+# install dependencies
+npm install
 
 # build for production with minification
 npm run build
 
 # build for production and view the bundle analyzer report
 npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
 ```
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
