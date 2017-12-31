@@ -48,6 +48,14 @@ export default {
     }
   },
 
+  setUserStateOption: (_name, _value) => {
+    localStorage.setItem(_name, _value);
+  },
+
+  getUserStateOption: _name => {
+    return localStorage.getItem(_name);
+  },
+
   getAuthHeader: function getAuthHeader() {
     return { 'Authorization': 'Bearer ' + localStorage.getItem('token') };
   },

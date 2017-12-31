@@ -1,5 +1,10 @@
 <template>
   <div class="animated fadeIn">
+    <b-alert
+      show
+      variant="danger"
+      v-if="errors.length > 0">{{ errors[0] }}
+    </b-alert>
     <b-row class="portfolio-control-row">
       <b-col
         md="6"
@@ -75,6 +80,7 @@ import PortfolioCards from '../components/PortfolioCards.vue';
 import PortfolioAddItemForm from '../components/PortfolioAddItemForm.vue';
 import axios from 'axios';
 import auth from '../auth';
+import portfolioAPIConnector from '../portfolioAPIConnector';
 
 function buildUrl(currency) {
   return `https://api.coinmarketcap.com/v1/ticker/?limit=0&convert=${currency}`;
@@ -103,14 +109,12 @@ export default {
         id: '',
         value: ''
       },
+      errors: [],
       user: auth.user,
       currencyList: [],
-      portfolioData: {
-        bitcoin: { id: 'bitcoin', value: 0.75 },
-        ethereum: { id: 'ethereum', value: 1.5 }
-      },
+      portfolioData: {},
       currencyData: {},
-      localCurrencyId: 'usd',
+      localCurrencyId: auth.getUserStateOption('chosenCurrency') || 'usd',
       localCurrencyIdForValues: 'usd',
       localCurrencyOptions: [
         { 'value': 'aud', 'text': 'AUD' },
@@ -157,6 +161,9 @@ export default {
   },
   watch: {
     localCurrencyId: function localCurrencyId() {
+      const currencyId = this.localCurrencyId;
+
+      auth.setUserStateOption('chosenCurrency', currencyId);
       this.getCurrencyData();
     }
   },
@@ -165,8 +172,16 @@ export default {
       return auth.redirectToLogin();
     }
     this.getCurrencyData();
+    this.reloadPortfolio();
   },
   methods: {
+    reloadPortfolio() {
+      portfolioAPIConnector.getPortfolio(1).then(_data => {
+        this.portfolioData = _data;
+      }).catch(_err => {
+        this.error = _err.message;
+      });
+    },
     getCurrencyData() {
       const currencyId = this.localCurrencyId;
       const url = buildUrl(currencyId);
@@ -199,6 +214,16 @@ export default {
         bvEvt.preventDefault();
 
         return false;
+      }
+
+      if (typeof this.portfolioData[this.portfolioItemToAdd.id] === 'undefined') {
+        portfolioAPIConnector
+          .addEntry(1, this.portfolioItemToAdd.id, this.portfolioItemToAdd.value)
+          .catch(e => { this.errors.push('Please reload page: ' + e.message); });
+      } else {
+        portfolioAPIConnector
+          .updateEntry(1, this.portfolioItemToAdd.id, this.portfolioItemToAdd.value)
+          .catch(e => { this.errors.push('Please reload page: ' + e.message); });
       }
 
       this.$set(this.portfolioData, this.portfolioItemToAdd.id, {
