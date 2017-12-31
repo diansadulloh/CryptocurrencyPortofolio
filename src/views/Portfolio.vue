@@ -74,6 +74,7 @@
 import PortfolioCards from '../components/PortfolioCards.vue';
 import PortfolioAddItemForm from '../components/PortfolioAddItemForm.vue';
 import axios from 'axios';
+import auth from '../auth';
 
 function buildUrl(currency) {
   return `https://api.coinmarketcap.com/v1/ticker/?limit=0&convert=${currency}`;
@@ -102,6 +103,7 @@ export default {
         id: '',
         value: ''
       },
+      user: auth.user,
       currencyList: [],
       portfolioData: {
         bitcoin: { id: 'bitcoin', value: 0.75 },
@@ -159,6 +161,9 @@ export default {
     }
   },
   created: function create() {
+    if (!this.user.authenticated) {
+      return auth.redirectToLogin();
+    }
     this.getCurrencyData();
   },
   methods: {

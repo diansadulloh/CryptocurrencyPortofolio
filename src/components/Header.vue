@@ -15,6 +15,20 @@
       @click="sidebarToggle">
       <span class="navbar-toggler-icon"/>
     </button>
+    <b-navbar-nav class="ml-auto">
+      <b-nav-item
+        class="d-md-down-none px-3"
+        to="/user/login"
+        v-if="!user.authenticated">
+        <i class="fa fa-lock"/> Login
+      </b-nav-item>
+      <b-nav-item
+        class="d-md-down-none px-3"
+        to="/user/logout"
+        v-if="user.authenticated">
+        <i class="fa fa-lock"/> Logout
+      </b-nav-item>
+    </b-navbar-nav>
     <!-- <button
       class="navbar-toggler aside-menu-toggler d-md-down-none"
       type="button"
@@ -24,8 +38,13 @@
   </header>
 </template>
 <script>
+import auth from '../auth';
+
 export default {
   name: 'Header',
+  data: () => {
+    return { user: auth.user };
+  },
   methods: {
     sidebarToggle(e) {
       e.preventDefault();
