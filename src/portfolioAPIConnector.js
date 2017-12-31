@@ -9,6 +9,17 @@ function getHeaders() {
   return { headers: auth.getAuthHeader() };
 }
 
+function processForError(_e, _reject) {
+  if (_e.response.data.error) {
+    if (_e.response.data.error.status === 401) {
+      return auth.error401();
+    }
+  }
+
+  return _reject(
+    new Error(_e.response.data.message || _e.response.data.msg));
+}
+
 function processForInternalSuccess(response, _accept, _reject) {
   if (response.data.success === false) {
     return _reject(new Error(response.data.msg));
@@ -26,8 +37,7 @@ export default {
           return processForInternalSuccess(response, _accept, _reject);
         })
         .catch(_e => {
-          return _reject(
-            new Error(_e.response.data.message || _e.response.data.msg));
+          processForError(_e, _reject);
         });
     });
   },
@@ -43,8 +53,7 @@ export default {
           return processForInternalSuccess(response, _accept, _reject);
         })
         .catch(_e => {
-          return _reject(
-            new Error(_e.response.data.message || _e.response.data.msg));
+          processForError(_e, _reject);
         });
     });
   },
@@ -56,8 +65,7 @@ export default {
           return processForInternalSuccess(response, _accept, _reject);
         })
         .catch(_e => {
-          return _reject(
-            new Error(_e.response.data.message || _e.response.data.msg));
+          processForError(_e, _reject);
         });
     });
   },
@@ -72,8 +80,7 @@ export default {
           return _accept(response.data.payload);
         })
         .catch(_e => {
-          return _reject(
-            new Error(_e.response.data.message || _e.response.data.msg));
+          processForError(_e, _reject);
         });
     });
   }

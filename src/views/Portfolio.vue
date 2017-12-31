@@ -179,7 +179,7 @@ export default {
       portfolioAPIConnector.getPortfolio(1).then(_data => {
         this.portfolioData = _data;
       }).catch(_err => {
-        this.error = _err.message;
+        this.errors.push(_err.message);
       });
     },
     getCurrencyData() {

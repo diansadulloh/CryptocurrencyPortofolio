@@ -62,5 +62,10 @@ export default {
 
   redirectToLogin: function redirectToLogin() {
     router.push('/user/login');
+  },
+
+  error401: function error401() {
+    this.logout();
+    router.push('/user/login');
   }
 };
