@@ -16,6 +16,11 @@ npm install
 npm run dev
 ```
 
+### Running the API on a different system?
+If the API is running on a different system to the one hosting this then
+the const API_URL = 'http://localhost:3000/' in ./src/portfolioAPIConnector.js
+to match the new server ip/port combination.
+
 ## Build 
 ``` bash
 # install dependencies
