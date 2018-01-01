@@ -182,6 +182,9 @@ export default {
     eventHub.$on('edit-portfolio-item', _item => {
       this.openEditForm(_item);
     });
+    eventHub.$on('remove-portfolio-item', _item => {
+      this.removePortfolioEntry(_item);
+    });
   },
   methods: {
     openEditForm(_item) {
@@ -231,6 +234,20 @@ export default {
         this.currencyList = _currencyList;
         this.localCurrencyIdForValues = currencyId;
       }).catch(e => { this.errors.push(e); });
+    },
+    removePortfolioEntry(_item) {
+      if (typeof _item.id !== 'string' || _item.id.length === 0) {
+        return;
+      }
+
+      if (typeof this.portfolioData[_item.id] === 'undefined') {
+        return;
+      }
+
+      this.$refs.portfolioForm.hide();
+      this.$delete(this.portfolioData, _item.id);
+      portfolioAPIConnector.deleteEntry(1, _item.id)
+        .catch(e => { this.errors.push('Please reload page: ' + e.message); });
     },
     addPortfolioEntry(bvEvt) {
       if (this.portfolioItemToAdd.id === '' ||

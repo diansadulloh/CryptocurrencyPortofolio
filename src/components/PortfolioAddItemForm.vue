@@ -31,11 +31,19 @@
           required
           placeholder="Enter value"/>
       </b-form-group>
+      <b-button
+        variant="danger"
+        class="pull-right"
+        @click="removeItem"
+        id="removeItem">Remove item from portfolio
+      </b-button>
     </b-form>
   </div>
 </template>
 
 <script>
+import eventHub from '../eventHub';
+
 export default {
   name: 'PortfolioAddItemForm',
   props: {
@@ -74,6 +82,9 @@ export default {
   methods: {
     isAlreadyInPortfolio(value) {
       this.showDuplicateWarning = this.portfolio[value] !== undefined;
+    },
+    removeItem() {
+      eventHub.$emit('remove-portfolio-item', this.form);
     }
   }
 };
