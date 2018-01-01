@@ -8,6 +8,11 @@
         <span class="text-uppercase">{{ currencyData.localSymbol }}</span>
         {{ valueInLocalCurrency() }}
       </div>
+      <b-button
+        type="button"
+        variant="outline-primary"
+        class="float-right small"
+        @click="editItem"><i class="fa fa-pencil"/></b-button>
       <div
         class="text-muted font-weight-bold font-xs"
         v-if="currencyData.localSymbol !== 'usd'">
@@ -21,6 +26,8 @@
 </template>
 
 <script>
+import eventHub from '../eventHub';
+
 function formatCurrencyValue(value) {
   if (isNaN(value)) {
     return '-';
@@ -50,6 +57,9 @@ export default {
     },
     valueInUSD() {
       return formatCurrencyValue(this.currencyData.price_usd * this.item.value);
+    },
+    editItem() {
+      eventHub.$emit('edit-portfolio-item', this.item);
     }
   }
 };

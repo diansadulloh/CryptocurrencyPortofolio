@@ -10,9 +10,10 @@
           :options="cryptoCurrencyList"
           required
           v-model="form.id"
+          :disabled="mode==='edit'"
           @input="isAlreadyInPortfolio"/>
       </b-form-group>
-      <div v-if="showDuplicateWarning">
+      <div v-if="mode==='add' && showDuplicateWarning">
         <b-alert
           variant="warning"
           show>This currency is already in your portfolio,
@@ -46,6 +47,10 @@ export default {
           value: ''
         };
       }
+    },
+    mode: {
+      type: String,
+      default: () => { return 'add'; }
     },
     cryptoCurrencyList: {
       type: Array,

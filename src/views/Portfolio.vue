@@ -24,7 +24,7 @@
         <div class="pull-right">
           <b-button
             variant="primary"
-            v-b-modal.addPortfolioItem>
+            @click="openAddForm">
             <i class="fa fa-plus"/>&nbsp; Add item
           </b-button>
         </div>
@@ -65,11 +65,13 @@
     />
     <b-modal
       id="addPortfolioItem"
-      title="Add portfolio entry"
+      ref="portfolioForm"
+      :title="`${ portfolioFormMode === 'add' ? 'Add' : 'Edit'} portfolio entry`"
       @ok="addPortfolioEntry">
       <portfolio-add-item-form
         :crypto-currency-list="currencyList"
         :form="portfolioItemToAdd"
+        :mode="portfolioFormMode"
         :portfolio="portfolioData"/>
     </b-modal>
   </div>
@@ -81,6 +83,7 @@ import PortfolioAddItemForm from '../components/PortfolioAddItemForm.vue';
 import axios from 'axios';
 import auth from '../auth';
 import portfolioAPIConnector from '../portfolioAPIConnector';
+import eventHub from '../eventHub';
 
 function buildUrl(currency) {
   return `https://api.coinmarketcap.com/v1/ticker/?limit=0&convert=${currency}`;
@@ -109,6 +112,7 @@ export default {
         id: '',
         value: ''
       },
+      portfolioFormMode: 'add',
       errors: [],
       user: auth.user,
       currencyList: [],
@@ -174,7 +178,28 @@ export default {
     this.getCurrencyData();
     this.reloadPortfolio();
   },
+  mounted: function mounted() {
+    eventHub.$on('edit-portfolio-item', _item => {
+      this.openEditForm(_item);
+    });
+  },
   methods: {
+    openEditForm(_item) {
+      this.portfolioItemToAdd.id = _item.id;
+      this.portfolioItemToAdd.value = _item.value;
+      this.portfolioFormMode = 'edit';
+
+      this.$refs.portfolioForm.show();
+    },
+    openAddForm() {
+      if (this.portfolioFormMode !== 'add') {
+        /* reset if not already an add form */
+        this.portfolioFormMode = 'add';
+        this.portfolioItemToAdd.id = '';
+        this.portfolioItemToAdd.value = '';
+      }
+      this.$refs.portfolioForm.show();
+    },
     reloadPortfolio() {
       portfolioAPIConnector.getPortfolio(1).then(_data => {
         this.portfolioData = _data;
