@@ -30,6 +30,10 @@
         </div>
       </b-col>
     </b-row>
+    <b-alert
+      show
+      v-if="loadingCurrencyData === true">Loading currency data from API...
+    </b-alert>
     <b-row>
       <b-col
         cols="6"
@@ -112,6 +116,7 @@ export default {
         id: '',
         value: ''
       },
+      loadingCurrencyData: false,
       portfolioFormMode: 'add',
       errors: [],
       user: auth.user,
@@ -214,6 +219,7 @@ export default {
       const currencyId = this.localCurrencyId;
       const url = buildUrl(currencyId);
 
+      this.loadingCurrencyData = true;
       axios.get(url).then(response => {
         if (!Array.isArray(response.data)) {
           throw new Error('Object returned was not an array');
@@ -233,6 +239,8 @@ export default {
         this.currencyData = _currencyData;
         this.currencyList = _currencyList;
         this.localCurrencyIdForValues = currencyId;
+
+        this.loadingCurrencyData = false;
       }).catch(e => { this.errors.push(e); });
     },
     removePortfolioEntry(_item) {
